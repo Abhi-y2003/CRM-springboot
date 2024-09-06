@@ -16,13 +16,27 @@ function fetchEmployees() {
             employeeList.innerHTML = "";
             data.forEach(employee => {
                 const li = document.createElement("li");
-                li.textContent = `${employee.name} - ${employee.email} - ${employee.phone}`;
-                
+                li.className = "employee-card";
+
+                const employeeInfo = document.createElement("div");
+                employeeInfo.className = "employee-info";
+                employeeInfo.innerHTML = `
+                    <span>${employee.name}</span>
+                    <span>${employee.email}</span>
+                    <span>${employee.phone}</span>
+                `;
+
+                const employeeActions = document.createElement("div");
+                employeeActions.className = "employee-actions";
+
                 const deleteButton = document.createElement("button");
                 deleteButton.textContent = "Delete";
                 deleteButton.onclick = () => deleteEmployee(employee.id);
 
-                li.appendChild(deleteButton);
+                employeeActions.appendChild(deleteButton);
+
+                li.appendChild(employeeInfo);
+                li.appendChild(employeeActions);
                 employeeList.appendChild(li);
             });
         });
@@ -45,8 +59,8 @@ function addEmployee() {
     .then(response => response.text())
     .then(data => {
         alert(data);
-        fetchEmployees(); // Refresh the employee list
-        document.getElementById("employeeForm").reset(); // Clear form fields
+        fetchEmployees(); 
+        document.getElementById("employeeForm").reset(); 
     });
 }
 
@@ -57,6 +71,6 @@ function deleteEmployee(id) {
     .then(response => response.text())
     .then(data => {
         alert(data);
-        fetchEmployees(); // Refresh the employee list
+        fetchEmployees(); 
     });
 }
